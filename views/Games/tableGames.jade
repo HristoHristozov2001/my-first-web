@@ -1,0 +1,39 @@
+extends ../layout 
+
+block content 
+    .container 
+        .row  
+            .column-md-12
+                h1.text-center Игри
+                br
+                table.table.table-striped.table-bordered 
+                    thead 
+                        th Name         
+                        th Genre
+                        th Platform
+                        th Rating
+                        th Year
+                        th Developer
+                        th(colspan="2") Action
+                    tbody 
+                        each game in games
+                            tr  
+                                td=game.name 
+                                td=game.genre 
+                                td=game.platform 
+                                td=game.rating 
+                                td=game.releaseYear 
+                                td=game.developer
+                                td
+                                    a(href="/games/edit/#{game.id}")  Edit
+                                        image(src="images/pencil.png" alt="Edit")
+                                td 
+                                    a(href="/games/delete/#{game.id}") Delete 
+                                        img(src="/images/cross.png", alt="Delete") 
+                a(href="/games/addGame") Add new game 
+                    img(src="/images/add.png", alt="Add new animal") 
+                                    
+
+                    
+                        
+                        

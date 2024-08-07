@@ -1,0 +1,24 @@
+extends ../layout 
+
+block content 
+    .container  
+        .row 
+            .col-md-12 
+                h1 Add New Computer 
+                form(action="/computers/addNew", method = "post") 
+                    div.form-group
+                        label(for="name") Name:
+                        input.form-control(type="text", id="name", name="name")
+                    div.form-group
+                        label(for="processor") CPU:
+                        input.form-control(type="text", id="processor", name="processor")
+                    div.form-group
+                        label(for="ram") RAM:
+                        input.form-control(type="text", id="ram", name="ram")
+                    div.form-group
+                        label(for="storage") Storage:
+                        input.form-control(type="text", id="storage", name="storage")
+                    div.form-group
+                        label(for="gpu") GPU:
+                        input.form-control(type="text", id="gpu", name="gpu")
+                    button.btn.btn-primary(type="submit") Save

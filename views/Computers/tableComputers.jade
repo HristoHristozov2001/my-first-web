@@ -1,0 +1,35 @@
+extends ../layout
+
+block content
+    .container
+        .row.text-center 
+            .col-md-12
+                h1 Компютри
+                br
+                table.table.table-striped.table-bordered
+                    thead
+                        tr 
+                            th Name
+                            th CPU
+                            th RAM
+                            th Storage
+                            th GPU
+                            th(colspan="2") Actions
+                    tbody 
+                        each computer in computers  
+                            tr 
+                                td= computer.name
+                                td= computer.processor 
+                                td= computer.ram 
+                                td= computer.storage
+                                td= computer.gpu
+                                td 
+                                    a(href='/computers/edit/#{computer.id}') Edit
+                                        img(src="/images/pencil.png", alt="Edit")
+                                td 
+                                    a(href='/computers/delete/#{computer.id}') Delete
+                                        img(src='/images/cross.png' alt="Delete")
+        .row 
+            .col-md-12 
+                a(href='/computers/addNew') Add new computer
+                    img(src="/images/add.png", alt="Add")

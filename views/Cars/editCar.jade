@@ -1,0 +1,33 @@
+extends ../layout
+
+block content 
+    .container
+        .row 
+            .col-md-12
+                h1 Edit Car
+                form(action="/cars/edit/#{car.id}", method = 'post')
+                    .form-group
+                        label(for="make") Make: 
+                        input.form-control(type="text", id="make", name="make", value=car.make)
+                    .form-group 
+                        label(for="model") Model:   
+                        input.form-control(type="text", id="model", name="model", value=car.model)
+                    .form-group
+                        label(for="year") Year 
+                        input.form-control(type="text", id="year", name="year", value=car.year)
+                    .form-group
+                        label(for="color") Color 
+                        input.form-control(type="text", id="color", name="color", value=car.color)
+                    .form-group
+                        label(for="type") Engine type  
+                        input.form-control(type="text", id="type", name="type", value=car.engine.type)
+                    .form-group
+                        label(for="horsepower") Horsepower 
+                        input.form-control(type="text", id="horsepower", name="horsepower", value=car.engine.horsepower)
+                    .form-group
+                        label(for="transmission") Transmission 
+                        input.form-control(type="text", id="transmission", name="transmission", value=car.engine.transmission)
+                    .form-group
+                        label(for="price") Price 
+                        input.form-control(type="text", id="price", name="price", value=car.price)
+                    button.btn.btn-primary(type="submit") Save

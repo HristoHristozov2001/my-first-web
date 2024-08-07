@@ -1,0 +1,5 @@
+# Dependency directories
+node_modules/
+
+# Database sensitive info
+db/dbCredentials.js

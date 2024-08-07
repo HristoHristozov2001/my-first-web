@@ -1,0 +1,30 @@
+extends ../layout
+
+block content 
+    .container
+        .row 
+            .col-md-12
+                h1 Edit Animal
+                form(action="/animals/edit/#{animal.id}", method = 'post')
+                    .form-group
+                        label(for="name") Name: 
+                        input.form-control(type="text", id="name", name="name", value=animal.name)
+                    .form-group 
+                        label(for="species") Species:   
+                        input.form-control(type="text", id="species", name="species", value=animal.species)
+                    .form-group
+                        label(for="age") Age 
+                        input.form-control(type="text", id="age", name="age", value=animal.characteristics.age)
+                    .form-group
+                        label(for="habitat") Habitat 
+                        input.form-control(type="text", id="habitat", name="habitat", value=animal.characteristics.habitat)
+                    .form-group
+                        label(for="diet") Diet 
+                        input.form-control(type="text", id="diet", name="diet", value=animal.characteristics.diet)
+                    .form-group
+                        label(for="weight") Weight 
+                        input.form-control(type="text", id="weight", name="weight", value=animal.characteristics.weight)
+                    .form-group
+                        label(for="length") Length 
+                        input.form-control(type="text", id="length", name="length", value=animal.characteristics.length)
+                    button.btn.btn-primary(type="submit") Save

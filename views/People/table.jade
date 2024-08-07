@@ -1,0 +1,21 @@
+extends ../layout
+
+block content
+    .container
+        .row 
+            .col-md-12.text-center
+                br 
+                table.table.table-striped.table-bordered    
+                    thead
+                        tr
+                            th Име
+                            th Възраст
+                            th Образование
+                            th Гражданство
+                    tbody 
+                        each person in people
+                            tr
+                                td= person.Име
+                                td= person.възраст
+                                td= person.Образование
+                                td= person.гражданство
