@@ -7,7 +7,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-//example, anotherExaple, cookieExample, data, form
+// Import additional routes
 var exampleRouter = require('./routes/example');
 var cookieRouter = require('./routes/cookieExample'); 
 var dataRouter = require('./routes/data');
@@ -17,6 +17,9 @@ var computersRouter = require('./routes/computers');
 var animalsRouter = require('./routes/animals');
 var gamesRouter = require('./routes/games');
 var carRouter = require('./routes/cars');
+
+const { connectDB } = require('./config/database');
+const { syncDB } = require('./models');
 
 var app = express();
 
@@ -33,14 +36,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-//example, anotherExample, cookieExamle, data, form
 app.use('/example', exampleRouter);
-app.use('/cookie',cookieRouter);
-app.use('/data',dataRouter);
-app.use('/form',formRouter)
-app.use('/people',peopleRouter);
+app.use('/cookie', cookieRouter);
+app.use('/data', dataRouter);
+app.use('/form', formRouter);
+app.use('/people', peopleRouter);
 app.use('/computers', computersRouter);
-app.use('/animals',animalsRouter);
+app.use('/animals', animalsRouter);
 app.use('/games', gamesRouter);
 app.use('/cars', carRouter);
 
@@ -59,5 +61,14 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+(async () => {
+  try {
+    await connectDB(); 
+    await syncDB();    
+  } catch (error) {
+    console.error('Failed to connect to the database or sync:', error);
+  }
+})();
 
 module.exports = app;

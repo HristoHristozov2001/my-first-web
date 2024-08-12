@@ -1,13 +1,14 @@
 var express = require('express');
 var router = express.Router();
 const pool = require('../db/db');
+const { models } = require('../models');
+const { Computer } = models;
 
 router.get('/', async function (req, res) {
     try {
-        const [rows, fields] = await pool.query("SELECT * from computers");
-        res.render('Computers/tableComputers', {computers: rows});
-        console.log(rows);
-        console.log(fields);
+        const computers = await Computer.findAll();
+        res.render('Computers/tableComputers', {computers: computers});
+        console.log(computers);
     } catch (error) {
         res.status(500).send("Error loading computers from the database");
         console.log(error);
