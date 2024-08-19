@@ -1,16 +1,16 @@
 module.exports = (sequelize, DataTypes) => {
-    const Authors = sequelize.define('Authors', {
+    const Authors = sequelize.define('Authors',{
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
-            autoIncrement: true,
-            allowNull: false
+            allowNull: false,
+            autoIncrement: true
         },
-        name: {
+        name:{
             type: DataTypes.STRING,
             allowNull: false
         },
-        biography: {
+        biography:{
             type: DataTypes.STRING,
             allowNull: false
         }
@@ -22,6 +22,6 @@ module.exports = (sequelize, DataTypes) => {
             as: 'books'
         });
     }
-
+    
     return Authors;
 }

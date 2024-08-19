@@ -2,34 +2,35 @@ module.exports = (sequelize, DataTypes) => {
     const Borrowings = sequelize.define('Borrowings', {
         id: {
             type: DataTypes.INTEGER,
-            primaryKey: true,
+            allowNull: false,
             autoIncrement: true,
-            allowNull: false
+            primaryKey: true
         },
         memberId: {
             type: DataTypes.INTEGER,
+            allowNull: false,
             references: {
-                model: 'Members', 
+                model: 'Members',
                 key: 'id'
-            },
-            allowNull: false
+            }
         },
         bookId: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
+            allowNull: false,
             references: {
-                model: 'Books', 
+                model: 'Books',
                 key: 'id'
-            },
-            allowNull: false
+            }
         },
         borrowDate: {
             type: DataTypes.DATE,
-            allowNull: false
+            allowNull: false,
         },
         returnDate: {
             type: DataTypes.DATE,
-            allowNull: true  
-        }
+            allowNull: false,
+        },
+
     });
 
     Borrowings.associate = (models) => {
@@ -39,10 +40,11 @@ module.exports = (sequelize, DataTypes) => {
         });
 
         Borrowings.belongsTo(models.Books, {
-            foreignKey: 'bookId',
-            as: 'book'
+           foreignKey: 'bookId',
+           as: 'book'
         });
-    }
+    } 
 
-    return Borrowings;
+
+    return Borrowings; 
 }

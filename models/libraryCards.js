@@ -1,25 +1,25 @@
-const { Model } = require("sequelize");
-
 module.exports = (sequelize, DataTypes) => {
     const LibraryCards = sequelize.define('LibraryCards', {
         id: {
             type: DataTypes.INTEGER,
-            primaryKey: true,
+            allowNull: false,
             autoIncrement: true,
-            allowNull: false
+            primaryKey: true
         },
         issueDate: {
             type: DataTypes.DATE,
-            allowNull: false
+            allowNull: false,
+
         },
         expirationDate: {
             type: DataTypes.DATE,
-            allowNull: false
+            allowNull: false,
         },
         memberId: {
             type: DataTypes.INTEGER,
+            allowNull: false,
             references: {
-                model: 'Member',
+                model: 'Members',
                 key: 'id'
             }
         }
@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'memberId',
             as: 'member'
         });
-    }
+    } 
 
-    return LibraryCards;
+    return LibraryCards; 
 }

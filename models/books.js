@@ -1,49 +1,48 @@
 module.exports = (sequelize, DataTypes) => {
-    const Books = sequelize.define('Books', {
+    const Books = sequelize.define('Books',{
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
-            autoIncrement: true,
-            allowNull: false
+            allowNull: false,
+            autoIncrement: true
         },
-        title: {
+        title:{
             type: DataTypes.STRING,
             allowNull: false
         },
-        ISBN: {
+        ISBN:{
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true 
+            uniqe: true
         },
-        publicationYear: {
+        authorId:{
             type: DataTypes.INTEGER,
-            allowNull: false
-        },
-        authorId: {
-            type: DataTypes.INTEGER,
+            allowNull: false,
             references: {
                 model: 'Authors',
                 key: 'id'
-            },
-            allowNull: false
+            }
         },
         publisherId: {
             type: DataTypes.INTEGER,
+            allowNull: false,
             references: {
                 model: 'Publishers',
                 key: 'id'
-            },
-            allowNull: false
+            }
+        },
+        publicationYear: {
+            type: DataTypes.STRING,
+            allowNull: false,
         },
         genreId: {
             type: DataTypes.INTEGER,
+            allowNull: false,
             references: {
                 model: 'Genres',
                 key: 'id'
-            },
-            allowNull: false
+            }
         }
-
     });
 
     Books.associate = (models) => {
@@ -51,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'authorId',
             as: 'author'
         });
-
+        
         Books.belongsTo(models.Publishers, {
             foreignKey: 'publisherId',
             as: 'publisher'
@@ -62,6 +61,5 @@ module.exports = (sequelize, DataTypes) => {
             as: 'genre'
         });
     }
-
     return Books;
-};
+}

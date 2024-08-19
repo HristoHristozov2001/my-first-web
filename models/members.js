@@ -2,42 +2,42 @@ module.exports = (sequelize, DataTypes) => {
     const Members = sequelize.define('Members', {
         id: {
             type: DataTypes.INTEGER,
-            primaryKey: true,
+            allowNull: false,
             autoIncrement: true,
-            allowNull: false
+            primaryKey: true
         },
         name: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
         },
         email: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
         },
         address: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
         },
-        phoneNumber: {
+        phoneNumbers: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
         },
         libraryCardId: {
+            allowNull: false,
             type: DataTypes.INTEGER,
             references: {
                 model: 'LibraryCards',
                 key: 'id'
-            },
-            allowNull: false
-        }
+            }
+        } 
     });
 
     Members.associate = (models) => {
         Members.hasOne(models.LibraryCards, {
-            foreignKey: 'libraryCardId',
+            foreignKey: 'memberId',
             as: 'libraryCard'
         });
     }
 
-    return Members;
+    return Members; 
 }

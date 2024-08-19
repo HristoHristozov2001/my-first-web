@@ -2,17 +2,17 @@ module.exports = (sequelize, DataTypes) => {
     const Publishers = sequelize.define('Publishers', {
         id: {
             type: DataTypes.INTEGER,
-            primaryKey: true,
             allowNull: false,
-            autoIncrement: true
+            autoIncrement: true,
+            primaryKey: true
         },
         name: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
         },
         address: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
         }
     });
 
@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'publisherId',
             as: 'books'
         });
-    }
+    } 
 
-    return Publishers;
+    return Publishers; 
 }

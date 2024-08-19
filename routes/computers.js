@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const pool = require('../db/db');
-const { models } = require('../models');
-const { Computer } = models;
+const computersService = require('../buisnessLayer/computers.service');
+
 
 router.get('/', async function (req, res) {
     try {
@@ -34,20 +34,14 @@ router.get('/edit/:id', async function (req, res) {
 router.post('/edit/:id', async function(req, res){
     const id = parseInt(req.params.id);
     const {name, processor, ram, storage, gpu} = req.body;
+
+    const computer = req.body;
+    computer[id] = parseInt(req.params.id);
     try {
-        const computer = await models.Computer.findByPk(id);
-        if(computer){
-            await computer.update({
-                name: name,
-                processor: processor,
-                ram: ram,
-                storage: storage,
-                gpu: gpu
-            });
-        }
+        computersService.update(computer);
         res.redirect('/computers');
     } catch (error) {
-        res.status(500).send('The computer was not found');
+        res.status(500).send(error);
     }
 });
 
