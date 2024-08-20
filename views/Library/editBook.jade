@@ -1,0 +1,30 @@
+extends ../layout
+
+block content
+    h1 Редактиране на книга
+    form(action='/books/editBook/#{book.id}', method='post')
+        div.form-group
+            label(for="title") Title
+            input.form-control(type='text', name='title', value=book.title, required=true)
+        div.form-group
+            label(for="ISBN") ISBN
+            input.form-control(type='text', name='ISBN', value=book.ISBN, required=true)
+        div.form-group
+            label(for="author") Author
+            select.form-control(name='authorId', required=true)
+                each author in authors
+                    option(value=author.id, selected=(author.id == book.authorId))= author.name
+        div.form-group
+            label(for="publisher") Publisher
+            select.form-control(name='publisherId', required=true)
+                each publisher in publishers
+                    option(value=publisher.id, selected=(publisher.id == book.publisherId))= publisher.name
+        div.form-group
+            label(for="publicationYear") Year
+            input.form-control(type='text', name='publicationYear', value=book.publicationYear, required=true)
+        div.form-group
+            label(for="genre") Genre
+            select.form-control(name='genreId', required=true)
+                each genre in genres
+                    option(value=genre.id, selected=(genre.id == book.genreId))= genre.genreName
+        button.btn.btn-primary(type='submit') Save

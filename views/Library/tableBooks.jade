@@ -1,0 +1,40 @@
+extends ../layout
+
+block content
+    .container
+        .row.text-center 
+            .col-md-12
+                h1 Книги
+                br
+                table.table.table-striped.table-bordered
+                    thead
+                    tr
+                        th Title
+                        th ISBN
+                        th Author
+                        th Publisher
+                        th Year
+                        th Genre
+                        th(colspan = "2") Actions
+                    tbody
+                    each book in books
+                        tr
+                            td= book.title
+                            td= book.ISBN
+                            td= book.author.name
+                            td= book.publisher.name
+                            td= book.publicationYear
+                            td= book.genre.genreName
+                            td 
+                                a(href='/books/edit/#{book.id}') Edit
+                                    img(src="/images/pencil.png", alt="Edit")
+                            td 
+                                a(href='/books/delete/#{book.id}') Delete
+                                    img(src='/images/cross.png' alt="Delete")
+        .row 
+            .col-md-12 
+                a(href='/books/addBook') Add new Book
+                    img(src="/images/add.png", alt="Add")
+
+
+

@@ -17,6 +17,7 @@ var computersRouter = require('./routes/computers');
 var animalsRouter = require('./routes/animals');
 var gamesRouter = require('./routes/games');
 var carRouter = require('./routes/cars');
+var booksRouter = require('./routes/books');
 
 const { connectDB } = require('./config/database');
 const { syncDB } = require('./models');
@@ -45,6 +46,7 @@ app.use('/computers', computersRouter);
 app.use('/animals', animalsRouter);
 app.use('/games', gamesRouter);
 app.use('/cars', carRouter);
+app.use('/books', booksRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
