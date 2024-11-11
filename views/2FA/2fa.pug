@@ -1,0 +1,25 @@
+extends ../layout
+
+block content
+    .container
+        h1 Двуфакторна автентикация (2FA)
+        p Активирай или деактивирай 2FA за допълнителна сигурност.
+
+        if !user.twoFactorEnabled
+            p Активирай 2FA
+            form(method='post', action='/2fa/activate')
+                button.btn.btn-primary(type='submit') Активирай
+        else if user.twoFactorEnabled && !user.isVerified
+            p Сканирай този QR код в приложението Google Authenticator:
+            img(src=qrcode)
+
+            form(method='post', action='/2fa/verify')
+                label(for='token') Въведи кода от Google Authenticator:
+                input(type='text', name='token')
+                button.btn.btn-success(type='submit') Потвърди кода
+
+            form(method='post', action='/2fa/deactivate')
+                button.btn.btn-danger(type='submit') Деактивирай 2FA
+        else
+            form(method='post', action='/2fa/deactivate')
+                button.btn.btn-danger(type='submit') Деактивирай 2FA

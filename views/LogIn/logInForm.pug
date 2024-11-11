@@ -1,0 +1,37 @@
+extends ../layout
+
+block content 
+    h1 Log In
+    br
+    if messages.length > 0
+        each message in messages
+            .alert.alert-danger= message
+
+    if success_msg.length > 0
+        each msg in success_msg
+            .alert.alert-success= msg
+            
+    form(action="/logIn", method="post")
+        div.form-group 
+            label(for="email") Email:  
+            input.form-control(type="text", name="email", required=true)
+
+        div.form-group 
+            label(for="pword") Password:  
+            input.form-control(type="password", name="password", required=true)
+            
+        div.d-flex.justify-content-between.align-items-center
+            div.form-group.form-check
+                input.form-check-input(type="checkbox", name="checkbox" id="checkbox")
+                label.form-check-label(for="remember") Remember me
+            div
+                a(href="/logIn/register") Register
+                |  | 
+                a(href="/logIn/forgot-password") Forgot password
+        br
+        div.form-group
+                .g-recaptcha(data-sitekey="6LcxsUwqAAAAAJsU7-VOi25Dlfa3BsvrCBpuDog1")
+        button.btn.btn-primary(type="submit") Login
+
+
+        

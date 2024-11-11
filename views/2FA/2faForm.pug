@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+   .container
+      .row.justify-content-center.mt-5
+         .col-md-6
+            h1.text-center Моля въведете вашия 2FA код
+            if messages
+               .alert.alert-danger #{messages}
+            form(method='post', action='/logIn/2fa')
+               .form-group
+                  label(for='token') Въведете кода от Google Authenticator:
+                  input.form-control(type='text', name='token', required=true)
+               button.btn.btn-primary(type='submit') Потвърди кода

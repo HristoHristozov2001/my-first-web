@@ -1,0 +1,15 @@
+extends ../layout
+
+block content
+    .container
+        .row.justify-content-center.mt-5
+            .col-md-8
+                .card
+                    .card-body.text-center
+                        h2.text-success 2FA Successfully Verified!
+                        p.mt-3
+                            | Your two-factor authentication method has been successfully activated and verified.
+                            br
+                            | You can now continue using your account with enhanced security.
+                        .mt-4
+                            a.btn.btn-secondary.ml-3(href='/books') Home Page

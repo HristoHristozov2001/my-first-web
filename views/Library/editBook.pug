@@ -2,7 +2,7 @@ extends ../layout
 
 block content
     h1 Редактиране на книга
-    form(action='/books/editBook/#{book.id}', method='post')
+    form(action=`/books/editBook/${book.id}`, method='post')
         div.form-group
             label(for="title") Title
             input.form-control(type='text', name='title', value=book.title, required=true)

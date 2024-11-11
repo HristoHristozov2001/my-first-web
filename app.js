@@ -7,26 +7,27 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+var session = require('express-session');
+var passport = require('./config/passport');
+require('dotenv').config();
+var flash = require('connect-flash');
+
 // Import additional routes
-var exampleRouter = require('./routes/example');
-var cookieRouter = require('./routes/cookieExample'); 
-var dataRouter = require('./routes/data');
-var formRouter = require('./routes/form');
+
 var peopleRouter = require('./routes/people');
 var computersRouter = require('./routes/computers');
-var animalsRouter = require('./routes/animals');
-var gamesRouter = require('./routes/games');
-var carRouter = require('./routes/cars');
 var booksRouter = require('./routes/books');
+var LogInRouter = require('./routes/logInForm');
+var twoFaRouter = require('./routes/2fa'); 
 
-const { connectDB } = require('./config/database');
+const { connectDB } = require('./config/dbConnection');
 const { syncDB } = require('./models');
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -34,27 +35,43 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {secure: false, httpOnly: true, maxAge: 3600000}
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
+
+app.use((req, res, next) => {
+  res.locals.user = req.user || null;
+  next();
+});
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-app.use('/example', exampleRouter);
-app.use('/cookie', cookieRouter);
-app.use('/data', dataRouter);
-app.use('/form', formRouter);
+
+// Register additional routes
+
 app.use('/people', peopleRouter);
 app.use('/computers', computersRouter);
-app.use('/animals', animalsRouter);
-app.use('/games', gamesRouter);
-app.use('/cars', carRouter);
 app.use('/books', booksRouter);
+app.use('/logIn', LogInRouter);
+app.use('/2fa', twoFaRouter);
+
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -64,10 +81,11 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+// Database connection and synchronization
 (async () => {
   try {
-    await connectDB(); 
-    await syncDB();    
+    await connectDB();
+    await syncDB();
   } catch (error) {
     console.error('Failed to connect to the database or sync:', error);
   }

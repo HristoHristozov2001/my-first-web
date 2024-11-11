@@ -1,15 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const { models } = require('../models');
-const bookLayer = require('../businessLayer/books.service');
+const bookLayer = require('../businessLayer/businesBook');
 const BookDTO = require('../DTO/dto');
+const { isAdmin, isAuthenticated } = require('../middleware/isAuth');
 
-router.get('/', async (req, res) => {
-    const books = await bookLayer.findAllBooks();
+router.get('/', isAuthenticated, async (req, res) => {
+    const books = await bookLayer.selectAll();
     res.render('Library/tableBooks', { books: books });
 });
 
-router.get('/addBook', async (req, res) => {
+router.get('/addBook', isAdmin, async (req, res) => {
     try {
         const { authors, publishers, genres } = await bookLayer.selectAuthorsPublishersGenres();
         res.render('Library/addBook', { authors: authors, publishers: publishers, genres: genres });
@@ -20,8 +21,8 @@ router.get('/addBook', async (req, res) => {
     }
 });
 
-router.post('/addBook', async (req, res) => {
-    const bookData  = new BookDTO(req.body);
+router.post('/addBook', isAdmin, async (req, res) => {
+    const bookData = new BookDTO(req.body);
     try {
         await bookLayer.create(bookData);
         res.redirect('/books');
@@ -31,11 +32,11 @@ router.post('/addBook', async (req, res) => {
     }
 });
 
-router.get('/edit/:id', async (req, res) => {
+router.get('/edit/:id', isAdmin, async (req, res) => {
     const id = parseInt(req.params.id);
     try {
         const book = await bookLayer.findPk(id);
-        if(book){
+        if (book) {
             const { authors, publishers, genres } = await bookLayer.selectAuthorsPublishersGenres();
             res.render('Library/editBook', { book: book, authors: authors, publishers: publishers, genres: genres });
         }
@@ -44,19 +45,19 @@ router.get('/edit/:id', async (req, res) => {
     }
 });
 
-router.post('/editBook/:id', async (req, res) => {
+router.post('/editBook/:id',isAdmin, async (req, res) => {
     try {
         const id = parseInt(req.params.id);
-        if(isNaN(id)){
+        if (isNaN(id)) {
             return res.status(400).send('Invalid book ID');
         }
         else {
             const bookData = new BookDTO(req.body);
             const isUpdated = await bookLayer.update(id, bookData);
-            if(isUpdated){
+            if (isUpdated) {
                 res.redirect('/books');
             }
-            else{
+            else {
                 res.status(404).send('Book not found');
             }
         }
@@ -65,23 +66,40 @@ router.post('/editBook/:id', async (req, res) => {
     }
 });
 
-router.get('/delete/:id', async (req, res) => {
+router.get('/delete/:id', isAdmin, async (req, res) => {
     const id = parseInt(req.params.id);
     try {
         if (isNaN(id)) {
             return res.status(400).send('Invalid book ID');
         }
-        else{
+        else {
             const isDeleted = await bookLayer.deleteBook(id);
             if (isDeleted) {
                 res.redirect('/books');
             }
-            else{
+            else {
                 res.status(404).send('Book not deleted');
             }
         }
     } catch (error) {
         res.status(404).send('Error deleting the book from DB.');
     }
+});
+
+router.get('/logOut', isAuthenticated, async(req, res) => {
+    await models.People.update({
+        formConfirmCode: false
+    }, {
+        where: {
+            id: req.user.id
+        }
+    });
+    req.logout(function (err) {
+        if (err) {
+            return next(err);
+        }
+        req.flash('success_msg', 'You have logged out successfully.');
+        res.redirect('/logIn');
+    });
 });
 module.exports = router;

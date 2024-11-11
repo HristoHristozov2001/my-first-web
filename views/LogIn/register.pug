@@ -1,0 +1,69 @@
+extends ../layout
+
+block content
+  .container
+    .row
+      .col-md-6.offset-md-3
+        h1.text-center Registration
+        br
+        form(action="/logIn/register", method="POST", id="registrationForm")
+            .form-group
+                label(for="email") E-mail
+                input#email.form-control(type="email", name="email", placeholder="Enter e-mail", required)
+                small#emailFeedback.form-text
+
+            .form-group
+                label(for="password") Password
+                input#password.form-control(type="password", name="password", placeholder="Enter password", required)
+                small#passwordFeedback.form-text
+
+            .form-group
+                label(for="confirmPassword") Confirm Password
+                input#confirmPassword.form-control(type="password", name="confirmPassword", placeholder="Confirm password", required)
+                small#confirmPasswordFeedback.form-text
+
+            .form-group
+                label(for="phoneNumber") Phone Number
+                input#phoneNumber.form-control(type="text", name="phoneNumber", placeholder="Enter phone number", required)
+                small#phoneNumberFeedback.form-text
+
+            .form-group
+                label(for="firstName") First Name
+                input#firstName.form-control(type="text", name="firstName", placeholder="Enter first name", required)
+                small#firstNameFeedback.form-text
+
+            .form-group
+                label(for="lastName") Last Name
+                input#lastName.form-control(type="text", name="lastName", placeholder="Enter last name", required)
+                small#lastNameFeedback.form-text
+
+            .form-group
+                label(for="gender") Gender
+                select#gender.form-control(name="gender", required)
+                    option(value="") --Choose--
+                    option(value="Male") Male
+                    option(value="Female") Female
+                small#genderFeedback.form-text
+
+            .form-group
+                label(for="birthDate") Date of Birth
+                .form-row
+                    .col-4
+                        select#day.form-control(name="day", required)
+                            option(value="") Day
+                            each day in Array.from({length: 31}, (v, i) => i + 1)
+                                option(value=day)= day
+                    .col-4
+                        select#month.form-control(name="month", required)
+                            option(value="") Month
+                            each month, index in ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+                                option(value=index + 1)= month
+                    .col-4
+                        select#year.form-control(name="year", required)
+                            option(value="") Year
+                            each year in Array.from({length: (new Date().getFullYear() - 1900 + 1)}, (v, i) => i + 1900)
+                                option(value=year)= year
+                small#birthDateFeedback.form-text
+
+            .form-group
+                button#submitBtn.btn.btn-primary(type="submit", disabled=false) Register

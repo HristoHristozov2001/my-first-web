@@ -5,7 +5,7 @@ block content
         .row 
             .col-md-12 
                 h1 Edit Computer 
-                form(action="/computers/edit/#{computer.id}", method = "post") 
+                form(action=`/computers/edit/${computer.id}`, method = "post") 
                     div.form-group
                         label(for="name") Name:
                         input.form-control(type="text", id="name", name="name", value=computer.name)

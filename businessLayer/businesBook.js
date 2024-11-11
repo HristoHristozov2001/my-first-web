@@ -1,6 +1,7 @@
+const { where } = require('sequelize');
 const {models} = require('../models');
 
-async function findAllBooks() {
+async function selectAll() {
     return await models.Books.findAll({
         include: ['author', 'publisher', 'genre']
     });
@@ -44,4 +45,4 @@ async function deleteBook(id) {
     return false;
 }
 
-module.exports = { findAllBooks, selectAuthorsPublishersGenres, create, findPk, update, deleteBook };
+module.exports = { selectAll, selectAuthorsPublishersGenres, create, findPk, update, deleteBook };
